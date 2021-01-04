@@ -14,7 +14,7 @@ class SearchEngine:
     # You can change the internal implementation, but you must have a parser and an indexer.
     def __init__(self, config=None):
         self._config = config
-        self._parser = Parse()
+        self._parser = Parse(self._config.toStem)
         self._indexer = Indexer(config)
         self._model = None
 
@@ -37,7 +37,6 @@ class SearchEngine:
         for idx, document in enumerate(documents_list):
             # parse the document
             parsed_document = self._parser.parse_doc(document)
-            print(parsed_document)
             number_of_documents += 1
             # index the document data
             self._indexer.add_new_doc(parsed_document)
@@ -79,7 +78,9 @@ class SearchEngine:
         searcher = Searcher(self._parser, self._indexer, model=self._model)
         return searcher.search(query)
 
+
     def main(self):
+
         print("main started orchuk")
         print(self._config.corpusPath)
         self.build_index_from_parquet(self._config.corpusPath)
