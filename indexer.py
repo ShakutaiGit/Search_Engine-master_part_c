@@ -6,9 +6,12 @@ class Indexer:
         self.doc_counter = 0
         self.inverted_idx = {}
         self.postingDict = {}
-        self.init_posting_files()
+        self.docs_dict = {}
         self.config = config
         self.pop_dict = {}
+        self.thresh_hold = 5000
+        self.stop_cleaning_value = 2000
+        self.exponent_grown_word_size_to_remove = 4
 
     # DO NOT MODIFY THIS SIGNATURE
     # You can change the internal implementation as you see fit.
@@ -20,15 +23,38 @@ class Indexer:
         :return: -
         """
         document_dictionary = document.term_doc_dictionary
-        max_tf = self.update_inverted(document_dictionary)
-        self.update_posting()
+        self.simple_dics_combine(document_dictionary, document.entity_dict)
+        max_tf = self.update_inverted(document_dictionary,document.tweet_id)
         length = len(document_dictionary)
         self.save_information_on_doc(length, max_tf, document.tweet_id, document.tweet_date, document.retweet)
         self.doc_counter += 1
+        self.thresh_hold_handler()
+
+    def thresh_hold_handler(self):
+        if self.thresh_hold < len(self.inverted_idx):
+            while self.stop_cleaning_value < len(self.inverted_idx):
+                to_remove = self.get_list_of_terms_to_remove()
+                self.clean_inverted_to_thresh_hold(to_remove)
+                self.exponent_grown_word_size_to_remove = self.exponent_grown_word_size_to_remove*2
+            self.exponent_grown_word_size_to_remove = self.exponent_grown_word_size_to_remove / 2
+
+    def clean_inverted_to_thresh_hold(self, remove_list):
+        for remove_item in remove_list:
+            self.inverted_idx.pop(remove_item)
+            self.postingDict.pop(remove_item)
+            if self.stop_cleaning_value >= len(self.inverted_idx):
+                break
+
+    def get_list_of_terms_to_remove(self):
+        res = []
+        for key, value in self.inverted_idx.items():
+            if value < self.exponent_grown_word_size_to_remove:
+                res.append(key)
+        return res
 
     def save_information_on_doc(self, unique, max_tf, tweet_id, tweet_date, rt_list):
         self.simple_dics_combine(self.pop_dict, rt_list)
-        self.postingDict["docs"][tweet_id] = (max_tf, unique, tweet_date[0])
+        self.docs_dict[tweet_id] = (max_tf, unique, tweet_date[0])
 
     def simple_dics_combine(self, source, to_add):
         for key in to_add.keys():
@@ -37,52 +63,51 @@ class Indexer:
             else:
                 source[key] = to_add[key]
 
-    def update_posting(self, dict_to_combine, tweet_id):
-        for key, value in dict_to_combine.items():
-            if key[0] is '$' or '%' in key or key[0].isnumeric():
-                self.adding_to_posting("numbers", key, value, tweet_id)
-            elif key[0].isupper():
-                self.posting_big_letters_handler(key, value, tweet_id)
-            elif key[0].islower():
-                self.posting_small_letter_handler(key, value, tweet_id)
-            elif key[0] is '#' or key[0] is '@':
-                self.adding_to_posting(key[0], key, value, tweet_id)
+    def calculate_posting_terms(self):
+        count = 0
+        for term in self.postingDict:
+            count += len(self.postingDict[term])
+        return count
 
-    def posting_small_letter_handler(self, key,value, tweet_id):
+    def posting_small_letter_handler(self, key, value, tweet_id):
         opp_word = key.upper()
-        if opp_word in self.postingDict[key[0]]:
-            self.postingDict[key[0]][key] = [(tweet_id,value)]
-            self.postingDict[key[0]][key] += self.postingDict[key[0]][opp_word]
-            self.postingDict[key[0]].pop(opp_word)
+        if opp_word in self.postingDict:
+            self.postingDict[key] = [(tweet_id, value)]
+            self.postingDict[key] += self.postingDict[opp_word]
+            self.postingDict.pop(opp_word)
         else:
-            self.adding_to_posting(key[0], key.value, tweet_id)
+            self.adding_to_posting(key, value, tweet_id)
 
     def posting_big_letters_handler(self, key, value, tweet_id):
         opp_word = key.lower()
-        if opp_word in self.postingDict[opp_word[0]]:
-            self.adding_to_posting(opp_word[0], opp_word, value, tweet_id)
+        if opp_word in self.postingDict:
+            self.adding_to_posting(opp_word, value, tweet_id)
         else:
-            self.adding_to_posting(key[0], opp_word, value, tweet_id)
+            self.adding_to_posting(key, value, tweet_id)
 
-    def adding_to_posting(self, category, key, value, tweet_id):
-        if key in self.postingDict[category]:
-            self.postingDict[category][key] += [(tweet_id, value)]
+    def adding_to_posting(self, key, value, tweet_id):
+        if key in self.postingDict:
+            self.postingDict[key] += [(tweet_id, value)]
         else:
-            self.postingDict[category][key] = [(tweet_id, value)]
+            self.postingDict[key] = [(tweet_id, value)]
 
-    def update_inverted(self, dict_to_combine):
+    def update_inverted(self, dict_to_combine, tweet_id):
         max_val = 0
         for key, value in dict_to_combine.items():
             if value > max_val:
                 max_val = value
             if key in self.inverted_idx:
                 self.inverted_idx[key] += value
-            elif key[0].isupper():  # now i have to check if the casefold word is in the inverted idx if it does i have to combine this value
+                self.adding_to_posting(key, value, tweet_id)
+            elif key[0].isupper():
                 self.inverted_big_letters_handler(key, value)
+                self.posting_big_letters_handler(key, value, tweet_id)
             elif key[0].islower():
                 self.inverted_small_letter_handler(key, value)
+                self.posting_small_letter_handler(key, value, tweet_id)
             else:
                 self.inverted_idx[key] = value
+                self.adding_to_posting(key, value, tweet_id)
         return max_val
 
     def inverted_small_letter_handler(self, key, value):
@@ -135,17 +160,7 @@ class Indexer:
         """
         Return the posting list from the index for a term.
         """
-        first_letter = term[0].lower()
-        if first_letter in self.postingDict and term in self.postingDict[first_letter]:
-            return self.postingDict[first_letter][term]
+        if term in self.postingDict:
+            return self.postingDict[term]
         return None
 
-    def init_posting_files(self):
-        ascii_lowercase = 'abcdefghijklmnopqrstuvwxyz'
-        for char in ascii_lowercase:
-            self.postingDict[char] = {}
-        self.postingDict["#"] = {}
-        self.postingDict["@"] = {}
-        self.postingDict["numbers"] = {}
-        self.postingDict["docs"] = {}
-        self.postingDict["entitys"] = {}

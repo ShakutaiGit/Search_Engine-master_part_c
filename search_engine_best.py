@@ -40,6 +40,8 @@ class SearchEngine:
             number_of_documents += 1
             # index the document data
             self._indexer.add_new_doc(parsed_document)
+        self._indexer.thresh_hold = 2000
+        self._indexer.thresh_hold_handler()
         print('Finished parsing and indexing.')
 
     # DO NOT MODIFY THIS SIGNATURE
