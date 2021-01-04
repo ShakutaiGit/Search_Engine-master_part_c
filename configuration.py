@@ -9,9 +9,8 @@ class ConfigClass:
         # in subsequent submissions to avoid the slow downloading of the large 
         # model file with every submission.
         self._download_model = False
-
-        self.corpusPath = ''
-        self.savedFileMainFolder = ''
+        self.corpusPath = 'C:/Users/ronsh/PycharmProjects/Search_Engine-master/sample.parquet'
+        self.savedFileMainFolder = 'C:/Users/ronsh/PycharmProjects/Savehere'
         self.saveFilesWithStem = self.savedFileMainFolder + "/WithStem"
         self.saveFilesWithoutStem = self.savedFileMainFolder + "/WithoutStem"
         self.toStem = False

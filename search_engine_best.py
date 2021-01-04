@@ -18,6 +18,7 @@ class SearchEngine:
         self._indexer = Indexer(config)
         self._model = None
 
+
     # DO NOT MODIFY THIS SIGNATURE
     # You can change the internal implementation as you see fit.
     def build_index_from_parquet(self, fn):
@@ -28,13 +29,15 @@ class SearchEngine:
         Output:
             No output, just modifies the internal _indexer object.
         """
-        df = pd.read_parquet(fn, engine="pyarrow")
-        documents_list = df.values.tolist()
+
+        rd = ReadFile(fn)
+        documents_list = rd.read_file()
         # Iterate over every document in the file
         number_of_documents = 0
         for idx, document in enumerate(documents_list):
             # parse the document
             parsed_document = self._parser.parse_doc(document)
+            print(parsed_document)
             number_of_documents += 1
             # index the document data
             self._indexer.add_new_doc(parsed_document)
@@ -75,3 +78,9 @@ class SearchEngine:
         """
         searcher = Searcher(self._parser, self._indexer, model=self._model)
         return searcher.search(query)
+
+    def main(self):
+        print("main started orchuk")
+        print(self._config.corpusPath)
+        self.build_index_from_parquet(self._config.corpusPath)
+
