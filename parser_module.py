@@ -156,7 +156,6 @@ class Parse:
         # print("pop:{}".format(self.retweet_dict))
         # print("entity:{}".format(entity_dict))
 
-
         document = Document(tweet_id, tweet_date, full_text, url, retweet_text, retweet_url, quote_text,
                             quote_url, term_dict, doc_length, entity_dict.copy(), self.retweet_dict.copy())
 
