@@ -6,9 +6,10 @@ import main
 
 class GUI(tk.Frame):
 
-    def __init__(self, master=None):
+    def __init__(self, master,search_engin):
         super().__init__(master)
         self.master = master
+        self.engin = search_engin
         self.create_widgets()
 
 
@@ -33,7 +34,10 @@ class GUI(tk.Frame):
         query = str(query_from_client)
         qury_lable = tk.Label(self.master,text=query)
         qury_lable.grid(row = 5, column = 5)
-        main.start_search(query=query)
+        self.start_search(query=query)
+
+    def start_search(self,query):
+        self.engin.search(query)
 
 
 

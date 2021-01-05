@@ -31,10 +31,10 @@ class Searcher:
         """
         query_as_list, entity_dict = self._parser.parse_sentence(query)
         entity_as_list = list(entity_dict.keys())
-        files = utils.load_obj("inverted")
-        self._indexer.inverted_idx = files[0]
-        self._indexer.postingDict = files[1]
-        self._indexer.pop_dict = files[2]
+        # files = utils.load_obj("inverted")
+        # self._indexer.inverted_idx = files[0]
+        # self._indexer.postingDict = files[1]
+        # self._indexer.pop_dict = files[2]
 
         relevant_docs_query = self._relevant_docs_from_posting(query_as_list)
         relevant_docs_entity = self._relevant_docs_to_entity(entity_as_list)

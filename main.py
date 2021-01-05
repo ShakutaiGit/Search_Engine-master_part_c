@@ -3,17 +3,17 @@ from configuration import ConfigClass
 import GUI
 import tkinter as tk
 
-config = ConfigClass()
-sg = SearchEngine(config)
 
 if __name__ == '__main__':
-    # sg.build_index_from_parquet(config.corpusPath)
+
+    config = ConfigClass()
+    sg = SearchEngine(config)
+    sg.build_index_from_parquet(config.corpusPath)
     root = tk.Tk()
-    app = GUI.GUI(master=root)
+    app = GUI.GUI(master=root,search_engin=sg)
 
 
-def start_search(query):
-    sg.search(query)
+
 
 
 

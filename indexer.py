@@ -11,8 +11,8 @@ class Indexer:
         self.docs_dict = {}
         self.config = config
         self.pop_dict = {}
-        self.thresh_hold = 5000
-        self.stop_cleaning_value = 2000
+        self.thresh_hold = 125000
+        self.stop_cleaning_value = 100000
         self.exponent_grown_word_size_to_remove = 4
 
     # DO NOT MODIFY THIS SIGNATURE
