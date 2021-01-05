@@ -29,11 +29,19 @@ class Searcher:
             a list of tweet_ids where the first element is the most relavant 
             and the last is the least relevant result.
         """
-        query_as_list, entity = self._parser.parse_sentence(query)
+        query_as_list, entity_dict = self._parser.parse_sentence(query)
+        entity_as_list = list(entity_dict.keys())
+        files = utils.load_obj("inverted")
+        self._indexer.inverted_idx = files[0]
+        self._indexer.postingDict = files[1]
+        self._indexer.pop_dict = files[2]
 
-        relevant_docs = self._relevant_docs_from_posting(query_as_list)
-        n_relevant = len(relevant_docs)
-        ranked_doc_ids = Ranker.rank_relevant_docs(relevant_docs)
+        relevant_docs_query = self._relevant_docs_from_posting(query_as_list)
+        relevant_docs_entity = self._relevant_docs_to_entity(entity_as_list)
+        full_relevant = {**relevant_docs_query,**relevant_docs_entity}
+        n_relevant = len(full_relevant)
+        ranked_doc_ids = Ranker.rank_relevant_docs(full_relevant)
+        print("id:{}".format(ranked_doc_ids[0]))
         return n_relevant, ranked_doc_ids
 
     # feel free to change the signature and/or implementation of this function 
@@ -46,8 +54,31 @@ class Searcher:
         """
         relevant_docs = {}
         for term in query_as_list:
-            posting_list = self._indexer.get_term_posting_list(term)
-            for doc_id, tf in posting_list:
-                df = relevant_docs.get(doc_id, 0)
-                relevant_docs[doc_id] = df + 1
+            posting_list = []
+            if term.isnumeric():
+                    list = self._indexer.get_term_posting_list(term)
+                    if not list is None:
+                        posting_list.extend(list)
+            else:
+                    list = self._indexer.get_term_posting_list(term)
+                    if not list is None:
+                        posting_list.extend(list)
+                    list= self._indexer.get_term_posting_list(term.casefold())
+                    if not list is None:
+                        posting_list.extend(list)
+            if not posting_list is None:
+                for doc_id, tf in posting_list:
+                    df = relevant_docs.get(doc_id, 0)
+                    relevant_docs[doc_id] = df + 1
         return relevant_docs
+
+    def _relevant_docs_to_entity(self, entity_as_list):
+        relevant_docs = {}
+        for term in entity_as_list:
+            posting_list = self._indexer.get_term_posting_list(term)
+            if not posting_list is None:
+                for doc_id, tf in posting_list:
+                    df = relevant_docs.get(doc_id, 0)
+                    relevant_docs[doc_id] = df + 1
+        return relevant_docs
+

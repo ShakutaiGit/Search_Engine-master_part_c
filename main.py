@@ -7,7 +7,7 @@ config = ConfigClass()
 sg = SearchEngine(config)
 
 if __name__ == '__main__':
-    sg.build_index_from_parquet(config.corpusPath)
+    # sg.build_index_from_parquet(config.corpusPath)
     root = tk.Tk()
     app = GUI.GUI(master=root)
 

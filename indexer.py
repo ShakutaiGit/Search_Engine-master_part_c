@@ -147,10 +147,6 @@ class Indexer:
         Input:
               fn - file name of pickled index.
         """
-        # if self.config.toStem:
-        #     path = self.config.saveFilesWithStem+'/'+fn
-        # else:
-        #     path = self.config.saveFilesWithoutStem+'/'+fn
         utils.save_obj((self.inverted_idx,self.postingDict,self.pop_dict),fn)
 
     # feel free to change the signature and/or implementation of this function 
