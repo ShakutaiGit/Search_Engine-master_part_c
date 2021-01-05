@@ -12,7 +12,7 @@ class Searcher:
     def __init__(self, parser, indexer, model=None):
         self._parser = parser
         self._indexer = indexer
-        self._ranker = Ranker()
+        self._ranker = Ranker(indexer)
         self._model = model
 
     # DO NOT MODIFY THIS SIGNATURE

@@ -24,6 +24,7 @@ class Indexer:
         :param document: a document need to be indexed.
         :return: -
         """
+
         document_dictionary = document.term_doc_dictionary
         self.simple_dics_combine(document_dictionary, document.entity_dict)
         max_tf = self.update_inverted(document_dictionary,document.tweet_id)

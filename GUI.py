@@ -21,7 +21,7 @@ class GUI(tk.Frame):
         query_e = tk.Entry(self.master)
         query_e.grid(row=1, column=0, padx=5,pady=2,ipady=3,ipadx=200)
 
-        search_btn = tk.Button(self.master,text="SEARCH",command=lambda: self.say_hi(query_e.get()))
+        search_btn = tk.Button(self.master,text="SEARCH",command=lambda: self.query_and_result(query_e.get()))
         search_btn.grid(row = 2, column = 0,padx=5,pady=2,ipadx=10, sticky = 'SW')
 
         exit_btn = tk.Button(self.master, text="EXIT", command=self.master.destroy )
