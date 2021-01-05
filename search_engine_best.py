@@ -7,6 +7,7 @@ from searcher import Searcher
 import utils
 
 
+
 # DO NOT CHANGE THE CLASS NAME
 class SearchEngine:
 
@@ -42,6 +43,7 @@ class SearchEngine:
             self._indexer.add_new_doc(parsed_document)
         self._indexer.thresh_hold = 2000
         self._indexer.thresh_hold_handler()
+        self._indexer.save_index("inverted")
         print('Finished parsing and indexing.')
 
     # DO NOT MODIFY THIS SIGNATURE
@@ -52,7 +54,7 @@ class SearchEngine:
         Input:
             fn - file name of pickled index.
         """
-        self._indexer.load_index(fn)
+        return self._indexer.load_index(fn)
 
     # DO NOT MODIFY THIS SIGNATURE
     # You can change the internal implementation as you see fit.
@@ -80,10 +82,4 @@ class SearchEngine:
         searcher = Searcher(self._parser, self._indexer, model=self._model)
         return searcher.search(query)
 
-
-    def main(self):
-
-        print("main started orchuk")
-        print(self._config.corpusPath)
-        self.build_index_from_parquet(self._config.corpusPath)
 

@@ -1,3 +1,5 @@
+import utils
+
 # DO NOT MODIFY CLASS NAME
 class Indexer:
     # DO NOT MODIFY THIS SIGNATURE
@@ -134,7 +136,8 @@ class Indexer:
         Input:
             fn - file name of pickled index.
         """
-        raise NotImplementedError
+        saved_files = utils.load_obj(fn)
+        return saved_files
 
     # DO NOT MODIFY THIS SIGNATURE
     # You can change the internal implementation as you see fit.
@@ -144,7 +147,11 @@ class Indexer:
         Input:
               fn - file name of pickled index.
         """
-        raise NotImplementedError
+        # if self.config.toStem:
+        #     path = self.config.saveFilesWithStem+'/'+fn
+        # else:
+        #     path = self.config.saveFilesWithoutStem+'/'+fn
+        utils.save_obj((self.inverted_idx,self.postingDict,self.pop_dict),fn)
 
     # feel free to change the signature and/or implementation of this function 
     # or drop altogether.

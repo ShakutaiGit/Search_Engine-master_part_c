@@ -22,7 +22,7 @@ class Parse:
         self.url_panct = ['http', 'https', 'i', 'web', 'www', 'status', 't.co', 'twitter.com']
         self.percent = {'percent', 'percentage', 'Percentage', 'Percent'}
         self.stop_words = stopwords.words('english')
-        self.dict_upper_word = {}
+        self.upper_word = []
         self.entity_dict = {}
         self.retweet_dict = {}
         self.stemmer_status = stemmer
@@ -83,9 +83,9 @@ class Parse:
                         list_of_terms = self.hash_tags_Handler(new_word)
                         final_terms.extend(list_of_terms)
                 else:
-                    if len(word_punctuation) > 1:
+                    if len(word_punctuation) > 2:
                         if word_punctuation[0].isupper():  # make upper dict and entity
-                            self.push_to_upper_dict(word_punctuation)
+                            self.upper_word.append(word_punctuation)
                             if entity_index is None or count == entity_index + 1:
                                 entity.append(word_punctuation)
                                 entity_index = count
@@ -102,6 +102,8 @@ class Parse:
 
         if len(entity) > 1:
             self.push_to_entity_dict(entity)
+
+        final_terms.extend(self.small_and_big_letters_dicts_update(self.upper_word, final_terms))
 
         return final_terms, self.entity_dict
 
@@ -146,12 +148,12 @@ class Parse:
 
         for term in tokenized_text:
             if not term == '' or not term == ' ':
-                if term not in term_dict.keys() or term.upper() in term_dict:
+                if term not in term_dict.keys():
                     term_dict[term] = 1
                 else:
                     term_dict[term] += 1
 
-        term_dict = self.small_and_big_letters_dicts_update(self.dict_upper_word, term_dict)
+        # term_dict = self.small_and_big_letters_dicts_update(self.dict_upper_word, term_dict)
         # print("tokenized_text: {} ".format(term_dict))
         # print("pop:{}".format(self.retweet_dict))
         # print("entity:{}".format(entity_dict))
@@ -312,15 +314,26 @@ class Parse:
         no_emoji = regrex_pattern.sub(r'',text)
         return no_emoji
 
-    def small_and_big_letters_dicts_update(self, upper_letters, dict_to_check):
-        for term in upper_letters.keys():
-            term_to_lowers = term.casefold()
-            if term_to_lowers in dict_to_check:
-                    dict_to_check[term_to_lowers] += upper_letters[term]
+    def small_and_big_letters_dicts_update(self, upper_letters, all_terms):
+        add_to_final =[]
+        for word in upper_letters:
+            term_to_lowers = word.lower()
+            if term_to_lowers in all_terms:
+                add_to_final.append(term_to_lowers)
             else:
-                    dict_to_check[term] = upper_letters[term]
-        self.dict_upper_word.clear()
-        return dict_to_check
+                add_to_final.append(word.upper())
+        return add_to_final
+
+
+
+        # for term in upper_letters.keys():
+        #     term_to_lowers = term.casefold()
+        #     if term_to_lowers in dict_to_check:
+        #             dict_to_check[term_to_lowers] += upper_letters[term]
+        #     else:
+        #             dict_to_check[term] = upper_letters[term]
+        # self.dict_upper_word.clear()
+        # return dict_to_check
 
     def check_digit(self, word):
         for letter in word:
