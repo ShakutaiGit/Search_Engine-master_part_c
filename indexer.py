@@ -147,7 +147,7 @@ class Indexer:
         Input:
               fn - file name of pickled index.
         """
-        utils.save_obj((self.inverted_idx,self.postingDict,self.pop_dict),fn)
+        utils.save_obj((self.inverted_idx,self.postingDict,self.docs_dict, self.pop_dict),fn)
 
     # feel free to change the signature and/or implementation of this function 
     # or drop altogether.
