@@ -9,7 +9,7 @@ class ConfigClass:
         # in subsequent submissions to avoid the slow downloading of the large 
         # model file with every submission.
         self._download_model = False
-        self.corpusPath = "C:/Users/ronsh\PycharmProjects/Search_Engine-master/data_test"
+        self.corpusPath ="C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\data_test"
         self.savedFileMainFolder = 'C:/Users/ronsh/PycharmProjects/Savehere'
         self.saveFilesWithStem = self.savedFileMainFolder + "/WithStem"
         self.saveFilesWithoutStem = self.savedFileMainFolder + "/WithoutStem"

@@ -10,7 +10,7 @@ class Ranker:
         self.indexer = indexer
         self.max_pop = max(self.indexer.pop_dict)
 
-    def rank_relevant_doc(self, relevant_doc, relevant_terms):
+    def rank_relevant_docs(self, relevant_doc, relevant_terms):
         """
         This function provides rank for each relevant document and sorts them by their scores.
         The current score considers solely the number of terms shared by the tweet (full_text) and query.

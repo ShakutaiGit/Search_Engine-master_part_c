@@ -9,7 +9,7 @@ from stemmer import Stemmer
 
 stemmer = Stemmer()
 
-
+number =0
 class Parse:
 
     def __init__(self, stemmer):
@@ -155,7 +155,7 @@ class Parse:
                     term_dict[term] += 1
 
         # term_dict = self.small_and_big_letters_dicts_update(self.dict_upper_word, term_dict)
-        # print("tokenized_text: {} ".format(term_dict))
+        # print("tokenized_text: {} ".format(len(term_dict)))
         # print("pop:{}".format(self.retweet_dict))
         # print("entity:{}".format(entity_dict))
 
