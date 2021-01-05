@@ -30,14 +30,20 @@ class GUI(tk.Frame):
         self.master.mainloop()
 
 
-    def say_hi(self,query_from_client):
+    def query_and_result(self,query_from_client):
         query = str(query_from_client)
         qury_lable = tk.Label(self.master,text=query)
         qury_lable.grid(row = 5, column = 5)
-        self.start_search(query=query)
+        n_relevant_docs,relevant_docs = self.start_search(query=query)
+        y=5
+        for id, rank in relevant_docs.item():
+            tweet_details = "Tweet id: "+str(id)+" Rank:"+str(rank)
+            tk.Label(self.master, text=tweet_details, fg="orange", font="ariel").grid(row=y, column=3, columnspan=5)
+            y += 1
 
     def start_search(self,query):
-        self.engin.search(query)
+        return self.engin.search(query)
+
 
 
 
