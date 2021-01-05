@@ -31,7 +31,6 @@ class Indexer:
         self.save_information_on_doc(length, max_tf, document.tweet_id, document.tweet_date, document.retweet)
         self.doc_counter += 1
         self.thresh_hold_handler()
-        print(self.doc_counter)
 
     def thresh_hold_handler(self):
         if self.thresh_hold < len(self.inverted_idx):

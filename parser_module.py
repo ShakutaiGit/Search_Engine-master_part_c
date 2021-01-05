@@ -85,7 +85,7 @@ class Parse:
                 else:
                     if len(word_punctuation) > 2:
                         if word_punctuation[0].isupper():  # make upper dict and entity
-                            self.upper_word.append(word_punctuation)
+                            final_terms.append(word_punctuation.upper())
                             if entity_index is None or count == entity_index + 1:
                                 entity.append(word_punctuation)
                                 entity_index = count
@@ -102,8 +102,8 @@ class Parse:
 
         if len(entity) > 1:
             self.push_to_entity_dict(entity)
-
-        final_terms.extend(self.small_and_big_letters_dicts_update(self.upper_word, final_terms))
+        # if not len(self.upper_word) == 0:
+        #     final_terms.extend(self.small_and_big_letters_dicts_update(self.upper_word, final_terms))
 
         return final_terms, self.entity_dict
 
@@ -145,6 +145,7 @@ class Parse:
         self.popularety_retweet(res, tweet_id)
 
         doc_length = len(tokenized_text)  # after text operations.
+        # tokenized_text.extend(self.small_and_big_letters_dicts_update(self.upper_word, tokenized_text))
 
         for term in tokenized_text:
             if not term == '' or not term == ' ':
@@ -323,8 +324,6 @@ class Parse:
             else:
                 add_to_final.append(word.upper())
         return add_to_final
-
-
 
         # for term in upper_letters.keys():
         #     term_to_lowers = term.casefold()
