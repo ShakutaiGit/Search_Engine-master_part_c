@@ -11,7 +11,8 @@ class GUI(tk.Frame):
         self.master = master
         self.engin = search_engin
         self.create_widgets()
-
+        #self.list_box = tk.Listbox(master=self.master,width=100)
+        #self.list_box.pack(pady=15)
 
     def create_widgets(self):
 
@@ -27,7 +28,9 @@ class GUI(tk.Frame):
         exit_btn = tk.Button(self.master, text="EXIT", command=self.master.destroy )
         exit_btn.grid(row = 2, column = 1,padx=5,pady=2,ipadx=10 ,sticky = 'S')
 
+
         self.master.mainloop()
+
 
 
     def query_and_result(self,query_from_client):
@@ -35,15 +38,14 @@ class GUI(tk.Frame):
         qury_lable = tk.Label(self.master,text=query)
         qury_lable.grid(row = 5, column = 5)
         n_relevant_docs,relevant_docs = self.start_search(query=query)
-        y=5
-        for id, rank in relevant_docs.item():
-            tweet_details = "Tweet id: "+str(id)+" Rank:"+str(rank)
+        y = 5
+        for tweet_score_tuple in relevant_docs:
+            tweet_details = "Tweet id: "+str(tweet_score_tuple[0])+" Rank:"+str(tweet_score_tuple[1])
             tk.Label(self.master, text=tweet_details, fg="orange", font="ariel").grid(row=y, column=3, columnspan=5)
             y += 1
 
-    def start_search(self,query):
+    def start_search(self, query):
         return self.engin.search(query)
-
 
 
 

@@ -8,7 +8,7 @@ class Ranker:
     def __init__(self, indexer):
         self.docs_limit = 2000
         self.indexer = indexer
-        self.max_pop = max(self.indexer.pop_dict)
+        self.max_pop = int(max(self.indexer.pop_dict))
 
     def rank_relevant_docs(self, relevant_doc, relevant_terms):
         """
