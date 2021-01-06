@@ -72,9 +72,9 @@ class Searcher:
             #add to relevant doc and save the info of term
             for doc_id in posting_list_of_term:
                 if doc_id in relevant_docs:
-                    relevant_docs[doc_id] +=1
+                    relevant_docs[doc_id[0]] +=1
                 else:
-                    relevant_docs[doc_id] = 1
+                    relevant_docs[doc_id[0]] = 1
                 relevant_terms[term] = posting_list_of_term
         return relevant_docs, relevant_terms
 
