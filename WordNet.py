@@ -11,9 +11,14 @@ class WordNet:
     def query_expan(self, query_terms):
         term_to_expan = self.which_terms_to_expan(query_terms)
         for term in term_to_expan:
-            synset = wordnet.synsets(term)
-            query_terms.append(synset[0].lemmas()[0].name())# maybe here we need to make some selecting from the options
+            query_terms.append(self.expan_to_different_term(term))
         return query_terms
+
+    def expan_to_different_term(self,term):
+        for syn in wordnet.synsets(term):
+            for l in syn.lemmas():
+                if not l.name() == term:
+                    return l.name()
 
     def which_terms_to_expan(self,query_terms):
         res_terms = []
