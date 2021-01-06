@@ -8,7 +8,8 @@ class Ranker:
     def __init__(self, indexer):
         self.docs_limit = 2000
         self.indexer = indexer
-        self.max_pop = int(max(self.indexer.pop_dict))
+        self.activate_pop = True
+        self.max_pop = max(self.indexer.pop_dict.values())
 
     def rank_relevant_docs(self, relevant_doc, relevant_terms):
         """
@@ -19,7 +20,8 @@ class Ranker:
         """
         inner_product = Inner_product(relevant_doc, relevant_terms, self.indexer)
         ranked = inner_product.rank()
-        self.pop_handler(ranked)
+        if self.activate_pop:
+            self.pop_handler(ranked)
         rank_relevant_doc = sorted(ranked.items(), key=lambda item: item[1], reverse=True)
         return rank_relevant_doc
 
