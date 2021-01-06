@@ -1,4 +1,9 @@
+
 from nltk.corpus import wordnet
+# import nltk
+# nltk.download('wordnet')
+
+
 class WordNet:
     def __init__(self, indexer):
         self.indexer = indexer
@@ -9,16 +14,20 @@ class WordNet:
         return 100
 
     def query_expan(self, query_terms):
+        expand_terms = []
         term_to_expan = self.which_terms_to_expan(query_terms)
         for term in term_to_expan:
-            query_terms.append(self.expan_to_different_term(term))
-        return query_terms
+            expand_terms.extend(self.expan_to_different_term(term))
+        # print(len(expand_terms))
+        return expand_terms
 
     def expan_to_different_term(self,term):
+        extand_terms = []
         for syn in wordnet.synsets(term):
             for l in syn.lemmas():
                 if not l.name() == term:
-                    return l.name()
+                    extand_terms.append(l.name())
+        return extand_terms
 
     def which_terms_to_expan(self,query_terms):
         res_terms = []

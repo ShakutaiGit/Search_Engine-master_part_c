@@ -33,8 +33,11 @@ class Searcher:
         """
         #parse the query and get list of term, list of entity
         query_as_list, entity_dict = self._parser.parse_sentence(query)
-        query_as_list = self.word_net.query_expan(query_as_list)
         entity_as_list = list(entity_dict.keys())
+        #start wordnet
+        query_extand = self.word_net.query_expan(query_as_list)
+        query_as_list.extend(query_extand)
+
         #get the relevant docs id, info of relevant term
         relevant_docs_query, relevant_terms_query = self._relevant_docs_from_posting(query_as_list)
         relevant_docs_entity, relevant_terms_entity = self._relevant_docs_to_entity(entity_as_list)
@@ -46,6 +49,7 @@ class Searcher:
         n_relevant = len(full_relevant_doc)
         #start ranker
         ranked_doc_ids = self._ranker.rank_relevant_docs(relevant_doc=full_relevant_doc, relevant_terms=full_relevant_term)
+        # print("{}".format(ranked_doc_ids))
         return n_relevant, ranked_doc_ids
 
     # feel free to change the signature and/or implementation of this function 

@@ -5,7 +5,7 @@ from reader import ReadFile
 from configuration import ConfigClass
 from parser_module import Parse
 from indexer import Indexer
-from searcher import Searcher
+from searcher_2 import Searcher
 import utils
 
 
