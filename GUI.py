@@ -20,13 +20,13 @@ class GUI(tk.Frame):
         headline.grid(row=0, column=1)
 
         query_e = tk.Entry(self.master,width = 50)
-        query_e.grid(row=1, column=0)
+        query_e.grid(row=1, column=1)
 
-        search_btn = tk.Button(self.master,text="SEARCH",command=lambda: self.query_and_result(query_e.get()))
-        search_btn.grid(row=2, column = 0,padx=10,pady=2,ipadx=10)
+        search_btn = tk.Button(self.master,text="SEARCH",width = 15,height=2,command=lambda: self.query_and_result(query_e.get()))
+        search_btn.grid(row=2,column=0)
 
-        exit_btn = tk.Button(self.master, text="EXIT", command=self.master.destroy )
-        exit_btn.grid(row=2, column = 1,padx=10,pady=2,ipadx=10)
+        exit_btn = tk.Button(self.master, text="EXIT",width = 15,height=2, command=self.master.destroy )
+        exit_btn.grid(row=2,column=1)
 
 
         self.master.mainloop()

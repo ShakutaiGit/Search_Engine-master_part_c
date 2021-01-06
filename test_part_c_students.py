@@ -10,7 +10,7 @@ if __name__ == '__main__':
     import importlib
     import logging
 
-    logging.basicConfig(filename='../../Downloads/Search_Engine-master/part_c_tests.log', level=logging.DEBUG,
+    logging.basicConfig(filename="C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\part_c_tests.log", level=logging.DEBUG,
                         filemode='w', format='%(levelname)s %(asctime)s: %(message)s')
     import metrics
 
@@ -33,9 +33,9 @@ if __name__ == '__main__':
         return False
 
 
-    bench_data_path = os.path.join('../../Downloads/Search_Engine-master/data', 'benchmark_data_train.snappy.parquet')
-    bench_lbls_path = os.path.join('../../Downloads/Search_Engine-master/data', 'benchmark_lbls_train.csv')
-    queries_path = os.path.join('../../Downloads/Search_Engine-master/data', 'queries_train.tsv')
+    bench_data_path = os.path.join("C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\data", "C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\benchmark_data_train.snappy.parquet")
+    bench_lbls_path = os.path.join("C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\data", "C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\benchmark_lbls_train.csv")
+    queries_path = os.path.join("C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\data", "C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\data\\queries_train.tsv")
     model_dir = os.path.join('../../Downloads/Search_Engine-master', 'model')
 
     start = datetime.now()

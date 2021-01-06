@@ -43,7 +43,8 @@ class Searcher:
         n_relevant = len(full_relevant_doc)
         #start ranker
         ranked_doc_ids = self._ranker.rank_relevant_docs(relevant_doc=full_relevant_doc, relevant_terms=full_relevant_term)
-        return n_relevant, ranked_doc_ids
+        doc_id, doc_rank = zip(*ranked_doc_ids)
+        return n_relevant,list(doc_id)
 
     # feel free to change the signature and/or implementation of this function 
     # or drop altogether.

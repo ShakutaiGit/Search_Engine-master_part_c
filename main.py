@@ -2,7 +2,7 @@
 from configuration import ConfigClass
 import GUI
 import tkinter as tk
-from Search_engine_2 import SearchEngine
+from search_engine_2 import SearchEngine
 
 
 if __name__ == '__main__':
