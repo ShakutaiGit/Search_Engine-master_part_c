@@ -25,7 +25,7 @@ class Parse:
         self.upper_word = []
         self.entity_dict = {}
         self.retweet_dict = {}
-        self.stemmer_status = stemmer
+        self.stemmer_status = True
         self.url = None
 
     def parse_sentence(self, text):
@@ -114,10 +114,7 @@ class Parse:
         :param doc_as_list: list re-presenting the tweet.
         :return: Document object with corresponding fields.
         """
-        # count = 1
-        # for i in doc_as_list :
-        #     print("{}. {}".format(count, i))
-        #     count += 1
+
 
         tweet_id = doc_as_list[0]
         tweet_date = doc_as_list[1]
@@ -167,10 +164,6 @@ class Parse:
                 else:
                     term_dict[term] += 1
 
-        # term_dict = self.small_and_big_letters_dicts_update(self.dict_upper_word, term_dict)
-        # print("tokenized_text: {} ".format(len(term_dict)))
-        # print("pop:{}".format(self.retweet_dict))
-        # print("entity:{}".format(entity_dict))
 
         document = Document(tweet_id, tweet_date, full_text, url, retweet_text, retweet_url, quote_text,
                             quote_url, term_dict, doc_length, entity_dict.copy(), self.retweet_dict.copy())
