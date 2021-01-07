@@ -62,10 +62,14 @@ class GUI(Frame):
 
         if n_relevant_docs > 0:
             sort_var = IntVar()
-            sort_chack_btn = Checkbutton(self.master,text="sort by time",onvalue=0 ,variable=sort_var,command=lambda :self.sort_by_time(canvas_Frame,relevant_docs))
+            sort_time_chack_btn = Checkbutton(self.master,text="sort by time",onvalue=0 ,variable=sort_var,command=lambda :self.sort_by_time(canvas_Frame,relevant_docs))
             sort_pop_chack_btn = Checkbutton(self.master,text="sort by pop",onvalue=1,variable=sort_var,command=lambda :self.sort_by_pop(canvas_Frame,relevant_docs))
+            sort_chack_btn = Checkbutton(self.master, text="sort by relevant", onvalue=2, variable=sort_var,
+                                         command=lambda: self.print_results(canvas_Frame, relevant_docs))
             sort_chack_btn.grid(row=3, column=0)
             sort_pop_chack_btn.grid(row=3, column=1)
+            sort_time_chack_btn.grid(row=3, column=2)
+
 
         #create scrollbar
         scrollbar = Scrollbar(self.master, orient="vertical", command=canvas.yview)
@@ -108,5 +112,7 @@ class GUI(Frame):
                 y += 1
         except:
             pass
+
+
 
 

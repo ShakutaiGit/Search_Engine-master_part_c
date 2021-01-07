@@ -1,6 +1,6 @@
 # you can change whatever you want in this module, just make sure it doesn't 
 # break the searcher module
-
+from cosimularity import Cosimularity
 from inner_product import Inner_product
 from sort_docs import Sorts
 
@@ -13,7 +13,7 @@ class Ranker:
         self.max_pop = max(self.indexer.pop_dict.values())
         self.sort = Sorts(self.indexer)
 
-    def rank_relevant_docs(self, relevant_doc, relevant_terms):
+    def rank_relevant_docs(self, relevant_doc, relevant_terms,query_terms):
         """
         This function provides rank for each relevant document and sorts them by their scores.
         The current score considers solely the number of terms shared by the tweet (full_text) and query.
@@ -22,6 +22,8 @@ class Ranker:
         """
         inner_product = Inner_product(relevant_doc, relevant_terms, self.indexer)
         ranked = inner_product.rank()
+        # cos = Cosimularity(relevant_doc, relevant_terms, self.indexer)
+        # ranked= cos.rank(query_terms)
         if self.activate_pop:
             self.pop_handler(ranked)
         rank_relevant_doc = sorted(ranked.items(), key=lambda item: item[1], reverse=True)

@@ -145,7 +145,6 @@ class Parse:
         self.popularety_retweet(res, tweet_id)
 
         doc_length = len(tokenized_text)  # after text operations.
-        # tokenized_text.extend(self.small_and_big_letters_dicts_update(self.upper_word, tokenized_text))
 
         for term in tokenized_text:
             if not term == '' or not term == ' ':

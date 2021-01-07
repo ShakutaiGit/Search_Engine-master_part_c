@@ -29,7 +29,7 @@ class Indexer:
         self.simple_dics_combine(document_dictionary, document.entity_dict)
         max_tf = self.update_inverted(document_dictionary,document.tweet_id)
         length = len(document_dictionary)
-        self.save_information_on_doc(length, max_tf, document.tweet_id, document.tweet_date, document.retweet)
+        self.save_information_on_doc(length, max_tf, document.tweet_id, document.tweet_date, document.retweet,document_dictionary)
         self.doc_counter += 1
         self.thresh_hold_handler()
 
@@ -55,9 +55,9 @@ class Indexer:
                 res.append(key)
         return res
 
-    def save_information_on_doc(self, unique, max_tf, tweet_id, tweet_date, rt_list):
+    def save_information_on_doc(self, unique, max_tf, tweet_id, tweet_date, rt_list,term_dict):
         self.simple_dics_combine(self.pop_dict, rt_list)
-        self.docs_dict[tweet_id] = (max_tf, unique, tweet_date[0])
+        self.docs_dict[tweet_id] = (max_tf, unique, tweet_date[0],term_dict)
 
     def simple_dics_combine(self, source, to_add):
         for key in to_add.keys():

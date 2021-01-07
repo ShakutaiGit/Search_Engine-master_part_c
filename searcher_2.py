@@ -48,7 +48,7 @@ class Searcher:
 
         n_relevant = len(full_relevant_doc)
         #start ranker
-        ranked_doc_ids = self._ranker.rank_relevant_docs(relevant_doc=full_relevant_doc, relevant_terms=full_relevant_term)
+        ranked_doc_ids = self._ranker.rank_relevant_docs(relevant_doc=full_relevant_doc, relevant_terms=full_relevant_term,query_terms=query_as_list)
         try:
             doc_id, doc_rank = zip(*ranked_doc_ids)
         except:
