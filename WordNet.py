@@ -17,18 +17,23 @@ class WordNet:
         expand_terms = []
         # term_to_expan = self.which_terms_to_expan(query_terms)
         for term in query_terms:
-            expand_term = self.expan_to_different_term(term)
-            if not expand_term is None:
-                expand_terms.append(expand_term)
+            candidate_terms = self.expan_to_different_term(term)
+            for t in candidate_terms:
+                if t is not None:
+                    expand_terms.append(t)
         return expand_terms
 
     def expan_to_different_term(self,term):
-
+        num_of_terms = 2
+        results = []
         for syn in wordnet.synsets(term):
             for l in syn.lemmas():
+                if num_of_terms is 0:
+                    break;
                 if not l.name() == term:
-                    return l.name()
-
+                   results.append(l.name())
+                   num_of_terms += -1
+        return results
     # def which_terms_to_expan(self,query_terms):
     #     res_terms = []
     #     for term in query_terms:

@@ -34,6 +34,7 @@ class Parse:
         :param text:
         :return:
         """
+
         final_terms = []
         entity = []
         entity_index = None
@@ -113,6 +114,11 @@ class Parse:
         :param doc_as_list: list re-presenting the tweet.
         :return: Document object with corresponding fields.
         """
+        # count = 1
+        # for i in doc_as_list :
+        #     print("{}. {}".format(count, i))
+        #     count += 1
+
         tweet_id = doc_as_list[0]
         tweet_date = doc_as_list[1]
         full_text = doc_as_list[2]
@@ -124,7 +130,15 @@ class Parse:
         term_dict = {}
         tokenized_text, entity_dict = self.parse_sentence(full_text)
         tweet_date = self.tweet_date_parse(tweet_date)
+        if doc_as_list[9] is not None:
+            tokenized_text1, entity_dict1 = self.parse_sentence(doc_as_list[9])
+            tokenized_text += tokenized_text1
 
+            for token in entity_dict1.keys():
+                if token in entity_dict:
+                    entity_dict[token] += entity_dict1[token]
+                else:
+                    entity_dict[token] = entity_dict1[token]
         # url parser
         url_parse = []
         if len(url) > 2:
