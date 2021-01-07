@@ -2,6 +2,7 @@
 # break the searcher module
 
 from inner_product import Inner_product
+from sort_docs import Sorts
 
 
 class Ranker:
@@ -10,6 +11,7 @@ class Ranker:
         self.indexer = indexer
         self.activate_pop = True
         self.max_pop = max(self.indexer.pop_dict.values())
+        self.sort = Sorts(self.indexer)
 
     def rank_relevant_docs(self, relevant_doc, relevant_terms):
         """
@@ -46,3 +48,7 @@ class Ranker:
         if k > self.docs_limit:
             k = self.docs_limit
         return sorted_relevant_doc[:k]
+
+
+
+
