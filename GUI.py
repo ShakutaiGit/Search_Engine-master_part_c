@@ -1,46 +1,90 @@
-import tkinter as tk
-from tkinter import ttk
+
+from tkinter import Tk, Text, BOTH, W, N, E, S, Canvas, PhotoImage, Image
+from tkinter.ttk import Frame, Button,Entry, Label, Style,Scrollbar
+from PIL import ImageTk,Image
 
 import main
 
 
-class GUI(tk.Frame):
+class GUI(Frame):
 
-    def __init__(self, master,search_engin):
-        super().__init__(master)
-        self.master = master
+    def __init__(self,search_engin):
+        super().__init__()
         self.engin = search_engin
         self.create_widgets()
-        #self.list_box = tk.Listbox(master=self.master,width=100)
-        #self.list_box.pack(pady=15)
+
+
 
     def create_widgets(self):
 
-        headline = tk.Label(self.master, text="Coogel19", fg="red", height=2, font=("Courier", 40))
-        headline.grid(row=0, column=1)
-
-        query_e = tk.Entry(self.master,width = 50)
-        query_e.grid(row=1, column=1)
-
-        search_btn = tk.Button(self.master,text="SEARCH",width = 15,height=2,command=lambda: self.query_and_result(query_e.get()))
-        search_btn.grid(row=2,column=0)
-
-        exit_btn = tk.Button(self.master, text="EXIT",width = 15,height=2, command=self.master.destroy )
-        exit_btn.grid(row=2,column=1)
 
 
-        self.master.mainloop()
+        self.master.title("Tweet The Covid19")
 
+        Style().configure("TButton", padding=(0, 5, 0, 5),
+                          font='serif 10')
+
+        self.columnconfigure(0, pad=3)
+        self.columnconfigure(1, pad=3)
+        self.columnconfigure(2, pad=3)
+        self.columnconfigure(3, pad=3)
+
+
+        self.rowconfigure(0, pad=3)
+        self.rowconfigure(1, pad=3)
+        self.rowconfigure(2, pad=3)
+        self.rowconfigure(3, pad=3)
+        self.rowconfigure(4, pad=3)
+
+
+        headline = Label(self.master,foreground="purple", text="Co-Tweet", font=("Courier", 40))
+        headline.grid(row=0, columnspan=4)
+
+        query_e = Entry(self.master)
+        query_e.grid(row=1, columnspan=4, sticky=W+E)
+
+        search_btn = Button(self.master,text="SEARCH",command=lambda: self.query_and_result(query_e.get()))
+        search_btn.grid(row=2 , column=1,pady=2)
+
+        exit_btn = Button(self.master, text="EXIT", command=self.master.destroy)
+        exit_btn.grid(row=2 ,column=2)
 
 
     def query_and_result(self,query_from_client):
         query = str(query_from_client)
         n_relevant_docs,relevant_docs = self.start_search(query=query)
-        y = 3
-        for tweet_score_tuple in relevant_docs[:20]:
-            tweet_details = "Tweet id: "+str(tweet_score_tuple[0])+" Rank:"+str(tweet_score_tuple[1])
-            tk.Label(self.master, text=tweet_details, fg="black", font=("Courier", 11)).grid(row=y, column=0, columnspan=5)
-            y += 1
+        # create canvas
+        canvas = Canvas(self.master)
+        canvas.grid(row=3, columnspan=4, sticky="news")
+
+        # create another frame
+        canvas_Frame = Frame(canvas)
+        canvas.create_window((0, 0), window=canvas_Frame, anchor=N + W)
+
+        #create scrollbar
+        scrollbar = Scrollbar(self.master, orient="vertical", command=canvas.yview)
+        scrollbar.grid(row=3, columnspan=4,sticky=E)
+
+        #bind canvas and scrollbar
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.bind('<Configure>',lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+        # rsults_frame = Frame(canvas)
+
+        n_text = "There is "+str(n_relevant_docs)+" results"
+        n_lable = Label(canvas_Frame, text=n_text, font=("serif", 10))
+        n_lable.grid(row=3, column=1)
+        y = 4
+        try:
+            for doc in relevant_docs:
+                tweet_details = "Tweet id: "+str(doc)
+                Label(canvas_Frame, text=tweet_details, font=("serif", 10)).grid(row=y, column=1)
+                y += 1
+        except:
+            pass
+
+
+
 
     def start_search(self, query):
         return self.engin.search(query)
