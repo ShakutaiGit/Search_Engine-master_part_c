@@ -49,7 +49,7 @@ class SearchEngine:
         print(time.time()-start_time)
         self._indexer.thresh_hold = 100000
         self._indexer.thresh_hold_handler()
-        self._indexer.save_index("inverted")
+        self._indexer.save_index("inverted_idx")
         print('Finished parsing and indexing.')
 
     # DO NOT MODIFY THIS SIGNATURE
