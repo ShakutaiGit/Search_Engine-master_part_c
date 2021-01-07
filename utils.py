@@ -11,8 +11,12 @@ def save_obj(obj, name):
     :param name: name of the pickle file.
     :return: -
     """
-    with open(name + '.pkl', 'wb') as f:
-        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+    if len(name) > 4 and name[-4:] is '.pkl':
+        with open(name, 'wb') as f:
+            pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+    else:
+        with open(name + '.pkl', 'wb') as f:
+            pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
 
 def load_obj(name):
@@ -21,9 +25,12 @@ def load_obj(name):
     :param name: name of the pickle file
     :return: loaded pickle file
     """
-    with open(name + '.pkl', 'rb') as f:
-        return pickle.load(f)
-
+    if len(name) > 4 and name[-4:] is '.pkl':
+        with open(name, 'rb') as f:
+            return pickle.load(f)
+    else:
+        with open(name+'.pkl', 'rb') as f:
+            return pickle.load(f)
 
 __fid_ptrn = re.compile(
     "(?<=/folders/)([\w-]+)|(?<=%2Ffolders%2F)([\w-]+)|(?<=/file/d/)([\w-]+)|(?<=%2Ffile%2Fd%2F)([\w-]+)|(?<=id=)([\w-]+)|(?<=id%3D)([\w-]+)")

@@ -54,8 +54,7 @@ class Searcher:
         except:
             doc_id = ()
         return n_relevant, list(doc_id)
-        # print("{}".format(ranked_doc_ids))
-        # return n_relevant, ranked_doc_ids
+
 
     # feel free to change the signature and/or implementation of this function 
     # or drop altogether.

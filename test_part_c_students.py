@@ -185,7 +185,7 @@ if __name__ == '__main__':
                 if engine_module == 'search_engine_best' and \
                         test_file_exists('idx_bench.pkl'):
                     logging.info('idx_bench.pkl found!')
-                    engine.load_index('idx_bench.pkl')
+                    engine.load_index('idx_bench')
                     logging.info('Successfully loaded idx_bench.pkl using search_engine_best.')
 
             except Exception as e:

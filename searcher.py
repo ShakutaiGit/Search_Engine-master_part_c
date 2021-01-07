@@ -47,7 +47,6 @@ class Searcher:
             doc_id, doc_rank = zip(*ranked_doc_ids)
         except:
             doc_id = ()
-        # print(list(doc_id))
         return n_relevant,list(doc_id)
 
     # feel free to change the signature and/or implementation of this function 

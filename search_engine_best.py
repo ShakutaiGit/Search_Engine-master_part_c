@@ -35,7 +35,6 @@ class SearchEngine:
 
         rd = ReadFile(fn)
         documents_list = rd.read_file()
-        print(len(documents_list))
 
         # Iterate over every document in the file
         number_of_documents = 0
@@ -46,11 +45,9 @@ class SearchEngine:
             number_of_documents += 1
             # index the document data
             self._indexer.add_new_doc(parsed_document)
-        print(time.time()-start_time)
         self._indexer.thresh_hold = 100000
         self._indexer.thresh_hold_handler()
         self._indexer.save_index("inverted_idx")
-        print('Finished parsing and indexing.')
 
     # DO NOT MODIFY THIS SIGNATURE
     # You can change the internal implementation as you see fit.

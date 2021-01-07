@@ -10,7 +10,6 @@ class WordNet:
         # self.thresh_hold = self.thresh_hold_calculator()
 
     # def thresh_hold_calculator(self):
-    #     print("to implement")
     #     return 100
 
     def query_expan(self, query_terms):
