@@ -36,7 +36,6 @@ class SearchEngine:
         rd = ReadFile(fn)
         documents_list = rd.read_file()
 
-        query1= ['1285169749333356544', '1284229606179053568', '1291138937017307136', '1291767378896920577','1288845290926215174']
         # Iterate over every document in the file
         number_of_documents = 0
         for idx, document in enumerate(documents_list):
@@ -45,8 +44,6 @@ class SearchEngine:
             number_of_documents += 1
             # index the document data
             self._indexer.add_new_doc(parsed_document)
-            if document[0] in query1:
-                print(document[0]+":"+document[2])
 
         self._indexer.thresh_hold = 100000
         self._indexer.thresh_hold_handler()

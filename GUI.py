@@ -26,7 +26,6 @@ class GUI(Frame):
         self.columnconfigure(2, pad=3)
         self.columnconfigure(3, pad=3)
 
-
         self.rowconfigure(0, pad=3)
         self.rowconfigure(1, pad=3)
         self.rowconfigure(2, pad=3)
@@ -50,8 +49,6 @@ class GUI(Frame):
     def query_and_result(self,query_from_client):
         query = str(query_from_client)
         n_relevant_docs,relevant_docs = self.start_search(query=query)
-        print("{}".format(relevant_docs[5:]))
-        print(query)
 
         # create canvas
         canvas = Canvas(self.master)
@@ -70,7 +67,6 @@ class GUI(Frame):
             sort_chack_btn.grid(row=3, column=0)
             sort_pop_chack_btn.grid(row=3, column=1)
             sort_time_chack_btn.grid(row=3, column=2)
-
 
         #create scrollbar
         scrollbar = Scrollbar(self.master, orient="vertical", command=canvas.yview)

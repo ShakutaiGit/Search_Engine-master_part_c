@@ -17,7 +17,6 @@ if __name__ == '__main__':
     app = GUI.GUI(search_engin=sg)
     root.mainloop()
 
-    # app = GUI.GUI(master=root,search_engin=sg)
 
 
 
