@@ -1,6 +1,8 @@
 import time
-
+import concurrent.futures
 import pandas as pd
+import threading
+
 from reader import ReadFile
 from configuration import ConfigClass
 from parser_module import Parse
@@ -17,9 +19,11 @@ class SearchEngine:
     # You can change the internal implementation, but you must have a parser and an indexer.
     def __init__(self, config=None):
         self._config = config
-        self._parser = Parse(self._config.toStem)
+        self._parser = Parse(self._config.toStem,self._config.toLemm)
         self._indexer = Indexer(config)
         self._model = None
+
+
 
 
     # DO NOT MODIFY THIS SIGNATURE
@@ -86,5 +90,9 @@ class SearchEngine:
         searcher = Searcher(self._parser, self._indexer, model=self._model)
         searcher._ranker.activate_pop = True
         return searcher.search(query)
+
+
+
+
 
 

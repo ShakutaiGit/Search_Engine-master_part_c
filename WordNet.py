@@ -33,11 +33,3 @@ class WordNet:
                    results.append(l.name())
                    num_of_terms += -1
         return results
-    # def which_terms_to_expan(self,query_terms):
-    #     res_terms = []
-    #     for term in query_terms:
-    #         if term not in self.indexer.inverted_idx:
-    #             res_terms.append(term)
-    #         elif self.indexer.inverted_idx[term] <= self.thresh_hold_calculator():
-    #             res_terms.append(term)
-    #     return res_terms

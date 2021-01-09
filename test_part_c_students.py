@@ -10,7 +10,7 @@ if __name__ == '__main__':
     import importlib
     import logging
 
-    logging.basicConfig(filename="C:\\Users\\ronsh\\PycharmProjects\\Search_Engine-master\\part_c_tests.log", level=logging.DEBUG,
+    logging.basicConfig(filename="C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\part_c_tests.log", level=logging.DEBUG,
                         filemode='w', format='%(levelname)s %(asctime)s: %(message)s')
     import metrics
 
@@ -33,9 +33,9 @@ if __name__ == '__main__':
         return False
 
 
-    bench_data_path = os.path.join("C:\\Users\\ronsh\\PycharmProjects\\Search_Engine-master\\data", "C:\\Users\\ronsh\\PycharmProjects\\Search_Engine-master\\benchmark_data_train.snappy.parquet")
-    bench_lbls_path = os.path.join("C:\\Users\\ronsh\\PycharmProjects\\Search_Engine-master\\data", "C:\\Users\\ronsh\\PycharmProjects\\Search_Engine-master\\benchmark_lbls_train.csv")
-    queries_path = os.path.join("C:\\Users\\ronsh\\PycharmProjects\\Search_Engine-master\\data", "C:\\Users\\ronsh\\PycharmProjects\\Search_Engine-master\\data\\queries_train.tsv")
+    bench_data_path = os.path.join("C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\data", "C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\benchmark_data_train.snappy.parquet")
+    bench_lbls_path = os.path.join("C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\data", "C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\benchmark_lbls_train.csv")
+    queries_path = os.path.join("C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\data", "C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\data\\queries_train.tsv")
     model_dir = os.path.join('../../Downloads/Search_Engine-master', 'model')
 
     start = datetime.now()
@@ -60,7 +60,7 @@ if __name__ == '__main__':
         if not test_file_exists(queries_path):
             logging.error("Queries data not found ~> skipping some tests.")
         else:
-            queries = pd.read_csv(os.path.join('C:\\Users\\ronsh\\PycharmProjects\\Search_Engine-master\\data', 'queries_train.tsv'), sep='\t')
+            queries = pd.read_csv(os.path.join('../../Downloads/Search_Engine-master/data', 'queries_train.tsv'), sep='\t')
             logging.info("Successfully loaded queries data.")
 
         import configuration
@@ -185,7 +185,7 @@ if __name__ == '__main__':
                 if engine_module == 'search_engine_best' and \
                         test_file_exists('idx_bench.pkl'):
                     logging.info('idx_bench.pkl found!')
-                    engine.load_index('idx_bench')
+                    engine.load_index('idx_bench.pkl')
                     logging.info('Successfully loaded idx_bench.pkl using search_engine_best.')
 
             except Exception as e:

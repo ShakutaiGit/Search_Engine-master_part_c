@@ -1,4 +1,4 @@
-
+import time
 from tkinter import Tk, Text, BOTH, W, N, E, S, Canvas,IntVar
 from tkinter.ttk import Frame, Button, Entry, Label, Style, Scrollbar, Checkbutton
 from PIL import ImageTk,Image
@@ -48,9 +48,10 @@ class GUI(Frame):
 
 
     def query_and_result(self,query_from_client):
+        start=time.time()
         query = str(query_from_client)
         n_relevant_docs,relevant_docs = self.start_search(query=query)
-
+        print(time.time()-start)
 
         # create canvas
         canvas = Canvas(self.master)

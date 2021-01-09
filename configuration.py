@@ -9,11 +9,12 @@ class ConfigClass:
         # in subsequent submissions to avoid the slow downloading of the large 
         # model file with every submission.
         self._download_model = False
-        self.corpusPath ="C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\benchmark_data_train.snappy.parquet"
+        self.corpusPath = "C:\\Users\\97254\\PycharmProjects\\Search_Engine-master_part_c\\benchmark_data_train.snappy.parquet"
         self.savedFileMainFolder = 'C:/Users/ronsh/PycharmProjects/Savehere'
         self.saveFilesWithStem = self.savedFileMainFolder + "/WithStem"
         self.saveFilesWithoutStem = self.savedFileMainFolder + "/WithoutStem"
         self.toStem = False
+        self.toLemm = True
         self.google_news_vectors_negative300_path = '../../../../GoogleNews-vectors-negative300.bin'
         self.glove_twitter_27B_25d_path = '../../../../glove.twitter.27B.25d.txt'
 

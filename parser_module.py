@@ -6,13 +6,18 @@ import unicodedata
 from nltk.corpus import stopwords
 from document import Document
 from stemmer import Stemmer
+from stemmer import Lemmatizer
 
 stemmer = Stemmer()
+lemmatizer = Lemmatizer()
+
+
+
 
 number =0
 class Parse:
 
-    def __init__(self, stemmer):
+    def __init__(self, stemmer,lemm):
         self.tens = {'Thousand': 'k', 'Million': 'M', 'Billion': 'B', 'thousand': 'K', 'million': 'M', 'billion': 'B'}
         self.panctuation_to_remove = ['*', '!', '&', '“', '‘', '(', ')', '+', '...', '.', '/', ':', ';', '"', '<', '=',
                                       '>', '?', '[', ']', '^', '`', '{', '|', '}', '~', "'"]
@@ -25,8 +30,9 @@ class Parse:
         self.upper_word = []
         self.entity_dict = {}
         self.retweet_dict = {}
-        self.stemmer_status = True
+        self.stemmer_status = stemmer
         self.url = None
+        self.lemmatizer_status = lemm
 
     def parse_sentence(self, text):
         """
@@ -84,9 +90,9 @@ class Parse:
                         list_of_terms = self.hash_tags_Handler(new_word)
                         final_terms.extend(list_of_terms)
                 else:
-                    if len(word_punctuation) > 2:
+                    if len(word_punctuation) > 1:
                         if word_punctuation[0].isupper():  # make upper dict and entity
-                            final_terms.append(word_punctuation.upper())
+                            final_terms.append(self.words_handler(word_punctuation.upper()))
                             if entity_index is None or count == entity_index + 1:
                                 entity.append(word_punctuation)
                                 entity_index = count
@@ -103,8 +109,6 @@ class Parse:
 
         if len(entity) > 1:
             self.push_to_entity_dict(entity)
-        # if not len(self.upper_word) == 0:
-        #     final_terms.extend(self.small_and_big_letters_dicts_update(self.upper_word, final_terms))
 
         return final_terms, self.entity_dict
 
@@ -125,18 +129,21 @@ class Parse:
         quote_text = doc_as_list[6]
         quote_url = doc_as_list[7]
         term_dict = {}
+
+
         tokenized_text, entity_dict = self.parse_sentence(full_text)
         tweet_date = self.tweet_date_parse(tweet_date)
-        if doc_as_list[9] is not None:
-            tokenized_text1, entity_dict1 = self.parse_sentence(doc_as_list[9])
-            tokenized_text += tokenized_text1
 
-            for token in entity_dict1.keys():
+
+        if doc_as_list[9] is not None:
+            tokenized_RT, entity_RT = self.parse_sentence(doc_as_list[9])
+            tokenized_text += tokenized_RT
+            for token in entity_RT.keys():
                 if token in entity_dict:
-                    entity_dict[token] += entity_dict1[token]
+                    entity_dict[token] += entity_RT[token]
                 else:
-                    entity_dict[token] = entity_dict1[token]
-        # url parser
+                    entity_dict[token] = entity_RT[token]
+
         url_parse = []
         if len(url) > 2:
             url_json = json.loads(url)
@@ -149,6 +156,7 @@ class Parse:
             if not self.url == None:
                 url_parse = (self.url_Handler(self.url, tweet_id))
         if len(url_parse) > 0:
+            # print("url: {}".format(url_parse))
             tokenized_text.extend(url_parse)
 
         # find the retweet to calc popularity
@@ -216,11 +224,21 @@ class Parse:
 
     def words_handler(self, word):
         if self.stemmer_status:
-            if word[0].isupper():
-                word = stemmer.stem_term(word)
+            if word.isupper():
+                word = stemmer.stem_term(word.lower())
+                return word.upper()
             else:
-                word = word.lower()
                 word = stemmer.stem_term(word)
+                return  word
+
+        if self.lemmatizer_status:
+            if word.isupper():
+                word = lemmatizer.lemm_term(word.lower())
+                return word.upper()
+            else:
+                word = lemmatizer.lemm_term(word)
+                return word
+
         return word
 
     def numeric_handler(self, word,index_of_word, all_words,length_all_word):
