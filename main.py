@@ -14,7 +14,6 @@ if __name__ == '__main__':
     sg.build_index_from_parquet(config.corpusPath)
     root = tk.Tk()
 
-    # root.geometry("350x300+300+300")
     app = GUI.GUI(search_engin=sg)
     root.mainloop()
 

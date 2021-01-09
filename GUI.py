@@ -48,10 +48,10 @@ class GUI(Frame):
 
 
     def query_and_result(self,query_from_client):
-        start=time.time()
         query = str(query_from_client)
         n_relevant_docs,relevant_docs = self.start_search(query=query)
-        print(time.time()-start)
+        print("{}".format(relevant_docs[5:]))
+        print(query)
 
         # create canvas
         canvas = Canvas(self.master)
