@@ -4,7 +4,7 @@ import json
 from configuration import ConfigClass
 import GUI
 import tkinter as tk
-from search_engine_1 import SearchEngine
+from search_engine_best import SearchEngine
 
 
 if __name__ == '__main__':
@@ -12,7 +12,6 @@ if __name__ == '__main__':
     config = ConfigClass()
     sg = SearchEngine(config)
     sg.build_index_from_parquet(config.corpusPath)
-    banch_idx = sg.load_index("idx_bench")
     root = tk.Tk()
 
     # root.geometry("350x300+300+300")

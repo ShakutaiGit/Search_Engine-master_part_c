@@ -47,7 +47,7 @@ class SearchEngine:
             self._indexer.add_new_doc(parsed_document)
         self._indexer.thresh_hold = 100000
         self._indexer.thresh_hold_handler()
-        self._indexer.save_index("inverted_idx")
+        self._indexer.save_index("idx_bench")
 
     # DO NOT MODIFY THIS SIGNATURE
     # You can change the internal implementation as you see fit.
