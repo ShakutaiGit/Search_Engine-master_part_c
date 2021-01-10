@@ -35,18 +35,15 @@ class SearchEngine:
 
         rd = ReadFile(fn)
         documents_list = rd.read_file()
-        print(len(documents_list))
 
         # Iterate over every document in the file
         number_of_documents = 0
-        start = time.time()
         for idx, document in enumerate(documents_list):
             # parse the document
             parsed_document = self._parser.parse_doc(document)
             number_of_documents += 1
             # index the document data
             self._indexer.add_new_doc(parsed_document)
-        print(time.time()-start)
         self._indexer.thresh_hold = 100000
         self._indexer.thresh_hold_handler()
         self._indexer.save_index("inverted_idx")

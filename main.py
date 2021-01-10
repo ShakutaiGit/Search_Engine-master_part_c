@@ -4,7 +4,7 @@ import json
 from configuration import ConfigClass
 import GUI
 import tkinter as tk
-from search_engine_best import SearchEngine
+from search_engine_2 import SearchEngine
 
 
 if __name__ == '__main__':

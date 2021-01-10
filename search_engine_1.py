@@ -40,7 +40,6 @@ class SearchEngine:
         rd = ReadFile(fn)
         documents_list = rd.read_file()
 
-
         # Iterate over every document in the file
         number_of_documents = 0
         for idx, document in enumerate(documents_list):
