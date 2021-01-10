@@ -138,6 +138,10 @@ class Indexer:
             fn - file name of pickled index.
         """
         saved_files = utils.load_obj(fn)
+        self.inverted_idx = saved_files[0]
+        self.postingDict = saved_files[1]
+        self.docs_dict = saved_files[2]
+        self.pop_dict = saved_files[3]
         return saved_files
 
     # DO NOT MODIFY THIS SIGNATURE

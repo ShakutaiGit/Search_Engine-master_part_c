@@ -30,9 +30,9 @@ class Parse:
         self.upper_word = []
         self.entity_dict = {}
         self.retweet_dict = {}
-        self.stemmer_status = stemmer
+        self.stemmer_status = False
         self.url = None
-        self.lemmatizer_status = lemm
+        self.lemmatizer_status = True
 
     def parse_sentence(self, text):
         """
